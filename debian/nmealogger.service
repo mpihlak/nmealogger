@@ -1,0 +1,10 @@
+[Unit]
+Description=NMEA logger
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/opt/nmealogger/bin/nmealogger.py
+
+[Install]
+WantedBy=multi-user.target

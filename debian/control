@@ -1,0 +1,12 @@
+Source: nmealogger
+Section: misc
+Priority: optional
+Maintainer: Martin Pihlak <martin.pihlak@gmail.com>
+Build-Depends: debhelper
+Standards-Version: 3.9.8
+
+Package: nmealogger
+Architecture: all
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Log NMEA sentences from to files.
+ Listens to NMEA sentences from a network server, adds timestamp and logs them to a file.
