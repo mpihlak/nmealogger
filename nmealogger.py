@@ -29,6 +29,9 @@ def valid_nmea_checksum(sentence):
 
 def read_and_log(s):
     while True:
+        # TODO: Since my Raspberry doesn't have the correct time, switch to
+        # sequence number based naming instead. This will also make the file names
+        # easier to handle with tools such as grep, cut and awk.
         file_ts = datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%S')
         filename = os.path.join(OUTPUT_DIRECTORY, "nmea-{file_ts}.log".format(file_ts=file_ts))
         logging.info("Writing to " + filename)
