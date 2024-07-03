@@ -1,0 +1,10 @@
+[Unit]
+Description=NMEA log upload service
+Wants=logupload.timer
+
+[Service]
+Type=oneshot
+ExecStart=/opt/nmealogger/bin/logupload -credentials /opt/nmealogger/etc/nmealogger-5cf95ba688f5.json -logDir /data
+
+[Install]
+WantedBy=multi-user.target

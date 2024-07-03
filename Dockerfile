@@ -1,11 +1,19 @@
-FROM debian:bookworm
+FROM golang:1.22-bookworm
 
 RUN apt-get update && apt-get install -y debhelper
 # Dev dependencies
-RUN apt-get install -y python3 systemd vim
+RUN apt-get install -y systemd vim tree
 
 WORKDIR /src
+
+COPY go.mod .
+COPY go.sum .
+RUN go mod download
+
 COPY . .
 
+RUN GOOS=linux GOARCH=arm GOARM=6 go build ./cmd/nmealogger
+RUN GOOS=linux GOARCH=arm GOARM=6 go build ./cmd/logupload
+
 RUN dpkg-buildpackage -us -uc
-RUN dpkg -c ../nmealogger_1.0-1_all.deb
+RUN ls -l ../*.deb

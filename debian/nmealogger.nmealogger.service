@@ -4,7 +4,7 @@ After=network.target
 
 [Service]
 Type=simple
-ExecStart=/opt/nmealogger/bin/nmealogger.py
+ExecStart=/opt/nmealogger/bin/nmealogger -logDir /data
 
 [Install]
 WantedBy=multi-user.target

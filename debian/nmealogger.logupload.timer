@@ -1,0 +1,10 @@
+[Unit]
+Description=NMEA log upload timer
+Requires=logupload.service
+
+[Timer]
+Unit=logupload.service
+OnCalendar=*:0/10
+
+[Install]
+WantedBy=timers.target

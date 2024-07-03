@@ -1,6 +1,6 @@
 # nmealogger - write now, analyze later
 
-Reads NMEA sentences from the network, add timestamps and write to log files. The intended use is to capture instrument data
+Reads NMEA sentences from the network, adds timestamps and writes to log files. The intended use is to capture instrument data
 from a sailing session and store it for later analysis. Assumes an NMEA network server such as [Kplex](https://www.stripydog.com/kplex/index.html)
 running on `127.0.0.1:10110`
 
@@ -17,3 +17,8 @@ Example data:
 2023-09-02T12:41:35.168370+00:00        $IIVHW,,,097,M,00.0,N,,*6A
 2023-09-02T12:41:35.168370+00:00        $IIVLW,09200,N,000.0,N*58
 ```
+
+## Log upload to Google Drive
+
+There's an utility to upload the collected log files to Google drive. It requires a service account to be created and the
+destination folder to be shared with the service account. Once configured the log uploader can be run from cron.
