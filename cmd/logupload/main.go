@@ -49,7 +49,7 @@ func main() {
 
 		fileInfo, err := e.Info()
 		if err != nil {
-			log.Print("Error getting file info for %s: %v", e.Name(), err)
+			log.Printf("Error getting file info for %s: %v", e.Name(), err)
 			continue
 		}
 
