@@ -1,3 +1,4 @@
 nmealogger opt/nmealogger/bin/
 logupload opt/nmealogger/bin/
+gpsdfilter opt/nmealogger/bin/
 nmealogger-5cf95ba688f5.json opt/nmealogger/etc

@@ -14,6 +14,7 @@ COPY . .
 
 RUN GOOS=linux GOARCH=arm GOARM=6 go build ./cmd/nmealogger
 RUN GOOS=linux GOARCH=arm GOARM=6 go build ./cmd/logupload
+RUN GOOS=linux GOARCH=arm GOARM=6 go build ./cmd/gpsdfilter
 
 RUN dpkg-buildpackage -us -uc
 RUN ls -l ../*.deb

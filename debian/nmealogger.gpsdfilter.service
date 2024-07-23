@@ -1,0 +1,10 @@
+[Unit]
+Description=T122 GPSD compatibility daemon
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/opt/nmealogger/bin/gpsdfilter
+
+[Install]
+WantedBy=multi-user.target

@@ -1,6 +1,7 @@
 nmealogger (1.0-3) unstable; urgency=low
 
   * Delete uploaded log files after a while
+  * Add a T122 GPSD compat daemon
 
  -- Martin Pihlak <martin.pihlak@gmail.com>  Tue, 09 Jul 2024 00:00:00 -0800
 

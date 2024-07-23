@@ -68,7 +68,7 @@ func handleClient(client net.Conn, gpsdAddress string) error {
 
 		if outSentence != "" {
 			checksum := nmealogger.CalculateChecksum(outSentence[1:])
-			outSentence = outSentence + ",A*" + checksum
+			outSentence = outSentence + "*" + checksum
 			log.Printf("Publishing: [%s]", outSentence)
 			if _, err := client.Write([]byte(outSentence + "\r\n")); err != nil {
 				return fmt.Errorf("error writing to client: %w", err)
@@ -87,7 +87,7 @@ func connectGpsd(gpsdAddress string) (net.Conn, error) {
 
 	log.Printf("Connected to gpsd, starting watch")
 
-	_, err = conn.Write([]byte(`?WATCH={"enable":true,"json":true}`))
+	_, err = conn.Write([]byte(`?WATCH={"enable":true,"nmea":true}`))
 	if err != nil {
 		return nil, err
 	}
@@ -117,7 +117,10 @@ func rewritePosition(sentence string) string {
 	// Time
 	pieces[5] = reformatFloat(pieces[5], "%.0f")
 
-	return strings.Join(pieces[:len(pieces)-1], ",")
+	// FAA indicator replaces checksum
+	pieces[7] = "A"
+
+	return strings.Join(pieces, ",")
 }
 
 // rewriteNavigationInfo takes the NMEA RMC sentence and rewrites it to be compatible with TackTick T122
@@ -150,11 +153,21 @@ func rewriteNavigationInfo(sentence string) string {
 	pieces[7] = reformatFloat(pieces[7], "%04.01f")
 	// Course Made Good
 	pieces[8] = reformatFloat(pieces[8], "%.0f")
+	if pieces[8] == "" {
+		pieces[8] = "000"
+	}
+
 	// Add zero magnetic variation
 	pieces[10] = "00"
 	pieces[11] = "E"
 
-	return strings.Join(pieces[:len(pieces)-1], ",")
+	// $IIRMC,161700,A,5928.095,N,02449.291,E,00.0,051,110724,00,E,A*03
+	// $GPRMC,161712,A,5928.099,N,02449.296,E,00.0,   ,110724,00,E*45
+
+	// Nav status replaces checksum
+	pieces[12] = "A"
+
+	return strings.Join(pieces, ",")
 }
 
 func reformatFloat(strValue string, format string) string {
