@@ -1,12 +1,8 @@
 # nmealogger - log NMEA data for offline analysis
 
-Reads NMEA sentences from the network, adds timestamps and writes to log files. The intended use is to capture instrument data
-from a sailing session and store it for later analysis. Assumes an NMEA network server such as [Kplex](https://www.stripydog.com/kplex/index.html)
-running on `127.0.0.1:10110`
-
-I'm using this on a Raspberry Pi with a RS422 hat, connected to the output of Tacktick T122 NMEA interface. The Pi also has a 4G
-modem attached to it and provides a Wifi hotspot so that logs can be uploaded ASAP and that the raw NMEA data is available on the
-boat network.
+Reads NMEA sentences from the network, adds timestamps and logs to files. The intended use is to capture instrument data
+from a sailing session and store it for later analysis. Assumes an NMEA network server running on port `10110` on `localhost`.
+[Kplex](https://www.stripydog.com/kplex/index.html) works well, alternatively SignalK NMEA 0183 over IP should also work.
 
 Example log data:
 
@@ -19,8 +15,9 @@ Example log data:
 2024-07-15T13:09:49.267+0000    $IIVWR,154,R,05.5,N,,,,*61
 ```
 
-The log files will be created in `/data`. If an Internet connection is available the `loguploader` daemon will attempt to upload
-the files to Google Drive. Uploaded log files are renamed to have an `.uploaded` suffix and deleted after a while.
+The log files will be created in `/data` after every 5 minutes. If an Internet connection is available the `loguploader` daemon will
+attempt to upload the finalized log files to Google Drive. Uploaded log files are renamed to have an `.uploaded` suffix and deleted
+from `/data` after a while.
 
 Binaries built from the `cmd` directory:
 
@@ -31,15 +28,21 @@ Binaries built from the `cmd` directory:
 
 ## Installation
 
-`make build` builds a Debian package for `arm32` Pi (first generation?). For other architectures the `Dockerfile` needs to be adjusted.
-Installing the package creates systemd services for NMEA logger, log uploader and cleanup.
+`make build` builds a Debian package for `arm32`. This has been confirmed to work on both the earlier generation and later 64 bit
+Raspberry Pi-s. For other architectures the `Dockerfile` needs to be adjusted.
+
+Copy the resulting `.deb` file to the Pi and install with `dpkg -i`. This will create the systemd services for
+NMEA logger, log uploader and cleanup. The services will be started automaticaly at system startup.
+
+The `/data` directory needs to be created manually.
 
 ## Uploading to Google Drive
 
-Using Drive as log destination is convenient as everyone has it, it doesn't necessarily cost anything and has a decent API (if somewhat poorly documented). The setup can be a bit involved though:
+Using Drive as log destination is convenient as ~everyone has it, it doesn't necessarily cost anything and has a decent API
+(if somewhat poorly documented). The setup can be a bit involved though: a cloud project needs to be created and an IAM service
+account. Use the Google Developer [console](https://console.cloud.google.com). Download the service account credentials - these
+need to be configured for `loguploader` and `logdownloader`.
 
-First a Cloud Project needs to be created. Then a service account. All this in the Google Developer [console](https://console.cloud.google.com/iam-admin/serviceaccounts?project=foo). The destination log folder in Drive needs to be shared with that service account.
+Create the destination folder in the Drive and note the folder ID from URL (this will need to be configured for the
+`loguploader`). Share the folder with the service account.
 
-The `loguploader` and `logdownloader` utilities need the JSON credentials file for the service account. Also the folder ID must be obtained
-from somewhere as Google Drive APIs operate on folder ID, not name. The easiest is probably to extract it from the Google Drive URL for the
-folder.
