@@ -31,6 +31,7 @@ func (lw *LogWriter) Write(sentence string) error {
 		return err
 	}
 
+	// TODO: Make time format a const
 	entry := fmt.Sprintf("%s\t%s\n", time.Now().UTC().Format("2006-01-02T15:04:05.999-0700"), sentence)
 	_, err = writer.Write([]byte(entry))
 
