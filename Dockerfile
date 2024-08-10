@@ -12,9 +12,8 @@ RUN go mod download
 
 COPY . .
 
-RUN GOOS=linux GOARCH=arm GOARM=6 go build ./cmd/nmealogger
-RUN GOOS=linux GOARCH=arm GOARM=6 go build ./cmd/logupload
-RUN GOOS=linux GOARCH=arm GOARM=6 go build ./cmd/gpsdfilter
+RUN GOOS=linux GOARCH=arm GOARM=6 go build -ldflags="-s -w" ./cmd/nmealogger
+RUN GOOS=linux GOARCH=arm GOARM=6 go build -ldflags="-s -w" ./cmd/logupload
 
 RUN dpkg-buildpackage -us -uc
 RUN ls -l ../*.deb

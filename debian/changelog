@@ -1,3 +1,10 @@
+nmealogger (1.0-4) unstable; urgency=low
+
+  * Remove the unnecessary GPSD compat daemon
+  * Strip the binaries on build
+
+ -- Martin Pihlak <martin.pihlak@gmail.com>  Sat, 10 Aug 2024 00:00:00 -0800
+
 nmealogger (1.0-3) unstable; urgency=low
 
   * Delete uploaded log files after a while
