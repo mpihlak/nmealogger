@@ -43,7 +43,7 @@ func main() {
 		if e.IsDir() {
 			continue
 		}
-		if !(strings.HasPrefix(e.Name(), "nmea") && strings.HasSuffix(e.Name(), ".log")) {
+		if !strings.HasSuffix(e.Name(), ".log") {
 			continue
 		}
 

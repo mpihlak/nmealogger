@@ -14,6 +14,7 @@ COPY . .
 
 RUN GOOS=linux GOARCH=arm GOARM=6 go build -ldflags="-s -w" ./cmd/nmealogger
 RUN GOOS=linux GOARCH=arm GOARM=6 go build -ldflags="-s -w" ./cmd/logupload
+RUN GOOS=linux GOARCH=arm GOARM=6 go build -ldflags="-s -w" ./cmd/signalk-logger
 
 RUN dpkg-buildpackage -us -uc
 RUN ls -l ../*.deb

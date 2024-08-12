@@ -1,0 +1,10 @@
+[Unit]
+Description=SignalK to CSV logger
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/opt/nmealogger/bin/signalk-logger -logDir /data
+
+[Install]
+WantedBy=multi-user.target

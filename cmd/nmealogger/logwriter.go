@@ -1,4 +1,4 @@
-package nmealogger
+package main
 
 import (
 	"fmt"
@@ -9,15 +9,15 @@ import (
 	"time"
 )
 
-type LogWriter struct {
+type NMEALogWriter struct {
 	lastRotationTime     time.Time
 	fileRotationInterval time.Duration
 	outputDirectory      string
 	writer               io.WriteCloser
 }
 
-func NewLogWriter(outputDirectory string, fileRotationInterval time.Duration) *LogWriter {
-	return &LogWriter{
+func NewNMEALogWriter(outputDirectory string, fileRotationInterval time.Duration) *NMEALogWriter {
+	return &NMEALogWriter{
 		lastRotationTime:     time.Now(),
 		fileRotationInterval: fileRotationInterval,
 		outputDirectory:      outputDirectory,
@@ -25,7 +25,7 @@ func NewLogWriter(outputDirectory string, fileRotationInterval time.Duration) *L
 	}
 }
 
-func (lw *LogWriter) Write(sentence string) error {
+func (lw *NMEALogWriter) Write(sentence string) error {
 	writer, err := lw.getWriter()
 	if err != nil {
 		return err
@@ -38,7 +38,7 @@ func (lw *LogWriter) Write(sentence string) error {
 	return err
 }
 
-func (lw *LogWriter) Close() {
+func (lw *NMEALogWriter) Close() {
 	if lw.writer != nil {
 		if err := lw.writer.Close(); err != nil {
 			log.Printf("Error closing active file: %v", err)
@@ -47,7 +47,7 @@ func (lw *LogWriter) Close() {
 	}
 }
 
-func (lw *LogWriter) getWriter() (io.Writer, error) {
+func (lw *NMEALogWriter) getWriter() (io.Writer, error) {
 	if time.Since(lw.lastRotationTime) > lw.fileRotationInterval {
 		lw.Close()
 		lw.lastRotationTime = time.Now()

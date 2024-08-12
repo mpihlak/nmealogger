@@ -1,3 +1,9 @@
+nmealogger (1.0-5) unstable; urgency=low
+
+  * Add SignalK to CSV logging
+
+ -- Martin Pihlak <martin.pihlak@gmail.com>  Wed, 14 Aug 2024 00:00:00 -0800
+
 nmealogger (1.0-4) unstable; urgency=low
 
   * Remove the unnecessary GPSD compat daemon

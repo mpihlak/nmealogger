@@ -45,7 +45,7 @@ func main() {
 func processMessages(conn net.Conn, outputDirectory string) {
 	reader := bufio.NewReader(conn)
 
-	logWriter := nmealogger.NewLogWriter(outputDirectory, FileRotationInterval)
+	logWriter := NewNMEALogWriter(outputDirectory, FileRotationInterval)
 	defer logWriter.Close()
 
 	statsLastReported := time.Now()
