@@ -5,7 +5,7 @@ Wants=logupload.timer
 [Service]
 Type=oneshot
 ExecStart=/opt/nmealogger/bin/logupload -credentials /opt/nmealogger/etc/nmealogger-5cf95ba688f5.json -logDir /data
-ExecStart=/usr/bin/find /data -name '*.log.uploaded' -mtime +1 -exec ls -l {} \;
+ExecStart=/usr/bin/find /data -name '*.log.uploaded' -mtime +1 -exec rm {} \;
 
 [Install]
 WantedBy=multi-user.target
